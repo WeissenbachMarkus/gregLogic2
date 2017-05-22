@@ -9,6 +9,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,79 +32,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Belongings implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected BelongingsPK belongingsPK;
+    @Id
+     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "B_key")
     private Integer bkey;
-    @JoinColumn(name = "B_I_fkey", referencedColumnName = "I_key")
+    @JoinColumn(name = "B_S_key", referencedColumnName = "S_key")
     @ManyToOne
-    private Items bIfkey;
-    @JoinColumn(name = "B_S_fkey", referencedColumnName = "key")
+    private Storages bSkey;
+    @JoinColumn(name = "B_I_key", referencedColumnName = "I_key")
     @ManyToOne
-    private Storages bSfkey;
+    private Items bIkey;
 
     public Belongings() {
     }
-
-    public Belongings(BelongingsPK belongingsPK) {
-        this.belongingsPK = belongingsPK;
-    }
-
-    public BelongingsPK getBelongingsPK() {
-        return belongingsPK;
-    }
-
-    public void setBelongingsPK(BelongingsPK belongingsPK) {
-        this.belongingsPK = belongingsPK;
-    }
-
-    public Integer getBkey() {
-        return bkey;
-    }
+   
 
     public void setBkey(Integer bkey) {
         this.bkey = bkey;
     }
 
-    public Items getBIfkey() {
-        return bIfkey;
+    public Storages getBSkey() {
+        return bSkey;
     }
 
-    public void setBIfkey(Items bIfkey) {
-        this.bIfkey = bIfkey;
+    public void setBSkey(Storages bSkey) {
+        this.bSkey = bSkey;
     }
 
-    public Storages getBSfkey() {
-        return bSfkey;
+    public Items getBIkey() {
+        return bIkey;
     }
 
-    public void setBSfkey(Storages bSfkey) {
-        this.bSfkey = bSfkey;
+    public void setBIkey(Items bIkey) {
+        this.bIkey = bIkey;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (belongingsPK != null ? belongingsPK.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Belongings)) {
-            return false;
-        }
-        Belongings other = (Belongings) object;
-        if ((this.belongingsPK == null && other.belongingsPK != null) || (this.belongingsPK != null && !this.belongingsPK.equals(other.belongingsPK))) {
-            return false;
-        }
-        return true;
-    }
-
+     
     @Override
     public String toString() {
-        return "sqllite.Belongings[ belongingsPK=" + belongingsPK + " ]";
+        return "BKey : "+bkey +" BIkey: "+bIkey.getIkey() +" BSKey: "+bSkey.getSkey();
     }
     
 }

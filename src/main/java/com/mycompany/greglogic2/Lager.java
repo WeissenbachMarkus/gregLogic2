@@ -68,6 +68,7 @@ public class Lager
      return false;
      }
      }*/
+    
     public void auslagern(int anzahl, Item item)
     {
        // System.out.println("auslagern: "+anzahl+" : "+item);

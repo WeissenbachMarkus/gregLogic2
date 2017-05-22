@@ -5,50 +5,60 @@
  */
 package sqllite.tables;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author markus
  */
-
-
 @Entity
-@Table
-public class Items {
+@Table(name = "Items")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Items.findAll", query = "SELECT i FROM Items i")
+    , @NamedQuery(name = "Items.findByIkey", query = "SELECT i FROM Items i WHERE i.ikey = :ikey")
+    , @NamedQuery(name = "Items.findByIname", query = "SELECT i FROM Items i WHERE i.iname = :iname")
+    , @NamedQuery(name = "Items.findByIean", query = "SELECT i FROM Items i WHERE i.iean = :iean")
+    , @NamedQuery(name = "Items.findByIartikelnummer", query = "SELECT i FROM Items i WHERE i.iartikelnummer = :iartikelnummer")
+    , @NamedQuery(name = "Items.findByIbeschreibung", query = "SELECT i FROM Items i WHERE i.ibeschreibung = :ibeschreibung")
+    , @NamedQuery(name = "Items.findByIverkaufspreis", query = "SELECT i FROM Items i WHERE i.iverkaufspreis = :iverkaufspreis")})
+public class Items implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
+    @Column(name = "I_key")
     private Integer ikey;
-
-    private String iean;
-
-    private String iartikelnummer;
-
+    @Column(name = "I_name")
     private String iname;
-
+    @Column(name = "I_ean")
+    private String iean;
+    @Column(name = "I_artikelnummer")
+    private String iartikelnummer;
+    @Column(name = "I_beschreibung")
     private String ibeschreibung;
-
+    @Column(name = "I_verkaufspreis")
     private String iverkaufspreis;
-
-    private Collection<Belongings> belongingsCollection;
+    
+    @ManyToMany (targetEntity=Storages.class)
+    private Set storagesSet;
 
     public Items() {
-    }
-
-    public Items(String ean, String artikelnummer, String name, String beschreibung, String verkaufspreis) {
-        this.iname = name;
-        this.iean = ean;
-        this.iartikelnummer = artikelnummer;
-        this.ibeschreibung = beschreibung;
-        this.iverkaufspreis = verkaufspreis;
     }
 
     public Integer getIkey() {
@@ -57,6 +67,14 @@ public class Items {
 
     public void setIkey(Integer ikey) {
         this.ikey = ikey;
+    }
+
+    public String getIname() {
+        return iname;
+    }
+
+    public void setIname(String iname) {
+        this.iname = iname;
     }
 
     public String getIean() {
@@ -75,14 +93,6 @@ public class Items {
         this.iartikelnummer = iartikelnummer;
     }
 
-    public String getIname() {
-        return iname;
-    }
-
-    public void setIname(String iname) {
-        this.iname = iname;
-    }
-
     public String getIbeschreibung() {
         return ibeschreibung;
     }
@@ -99,18 +109,9 @@ public class Items {
         this.iverkaufspreis = iverkaufspreis;
     }
 
-    @XmlTransient
-    public Collection<Belongings> getBelongingsCollection() {
-        return belongingsCollection;
+    public void setStorageSet(Set storageSet)
+    {
+        this.storagesSet=storageSet;
     }
-
-    public void setBelongingsCollection(Collection<Belongings> belongingsCollection) {
-        this.belongingsCollection = belongingsCollection;
-    }
-
-    @Override
-    public String toString() {
-        return "sqllite.Items[ itemsPK= ]";
-    }
-
+ 
 }

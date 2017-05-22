@@ -16,56 +16,45 @@ import java.util.Arrays;
  *
  * @author markus
  */
-public class ReadFile
-{
+public class ReadFile {
 
     String csvFile;
     BufferedReader br;
     String csvSplitBy;
 
-    public ReadFile(String csvFile)
-    {
+    public ReadFile(String csvFile) {
 
         this.csvFile = csvFile;
         this.csvSplitBy = "\t";
 
     }
 
-    public ArrayList<String[]> read()
-    {
+    public ArrayList<String[]> read() {
 
         ArrayList<String[]> csvFile = new ArrayList<>();
 
-        try
-        {
+        try {
             this.br = new BufferedReader(new FileReader(this.csvFile));
 
             String line = "";
-            while ((line = this.br.readLine()) != null)
-            {
+            while ((line = this.br.readLine()) != null) {
 
                 String[] itemsAndStock = line.split(this.csvSplitBy);
 
                 csvFile.add(itemsAndStock);
             }
 
-        } catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-        } finally
-        {
-            if (br != null)
-            {
-                try
-                {
+        } finally {
+            if (br != null) {
+                try {
                     br.close();
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
